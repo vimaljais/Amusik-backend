@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.static('public'));
 
 
-
+app.get('/', (req, res) => {res.send('it is working!')})
 app.post('/getaudio', (req,res) => {
 	const { link } = req.body;
 	console.log('processing');
@@ -36,6 +36,6 @@ app.post('/getaudio', (req,res) => {
 
 
 
-app.listen(3000, () => {
-	console.log('listening on 3000');
+app.listen(process.env.PORT, () => {
+	console.log(`app is running on ${process.env.PORT}`);
 })
