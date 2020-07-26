@@ -28,7 +28,7 @@ app.post('/getaudio', (req,res) => {
 		stream.on('progress', function (length, downloaded, total) {
 			completed= (downloaded/total)*100
 		  console.log(`completed=${completed}`);
-		  if(downloaded === total)
+		  if(downloaded > (total/4)
 		  {
 		  	console.log('give back the response')
 		  	res.json('success')
