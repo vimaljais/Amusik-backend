@@ -29,11 +29,12 @@ app.post('/getaudio', (req,res) => {
 		});
 		stream.on('response', Ytbres => { 
 		  console.log(Ytbres.headers)
+		  console.log('success')
 		});
 
 
 		stream.pipe(fs.createWriteStream('public/music.mp3'))
-		console.log('success')
+
 	res.json('success')
 })
 
