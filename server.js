@@ -36,9 +36,7 @@ app.post('/getaudio', (req,res) => {
 
 		stream.pipe(fs.createWriteStream('public/music.mp3'))
 
-	while(!success){
-		console.log('working');
-	}
+
 	res.json('success');
 })
 
