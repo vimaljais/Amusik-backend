@@ -33,7 +33,8 @@ app.post('/getaudio', (req,res) => {
 
 
 		stream.pipe(fs.createWriteStream('public/music.mp3'))
-	res.send('http://localhost:3000/music.mp3')
+		console.log('success')
+	res.json('success')
 })
 
 app.post('/geturl', (req, res) => {
