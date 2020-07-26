@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('public'));
 
-const API_KEY_GOOGLE = 'AIzaSyDeGgloyNd0f7nJjCRXkxyQDL2c_-PtaKE';
+const API_KEY_GOOGLE = 'AIzaSyDVPd9RdXnQ_0mhFWzGzvAKwAfUEXIfj7s';
 
 
 app.get('/', (req, res) => {res.send('it is working!')})
