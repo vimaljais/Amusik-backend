@@ -10,13 +10,13 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('public'));
 
-const API_KEY_GOOGLE = 'AIzaSyAWALUfkaVXKlRICN6bGx1Q8Y5TCouFzF4';
+const API_KEY_GOOGLE = 'AIzaSyDeGgloyNd0f7nJjCRXkxyQDL2c_-PtaKE';
 
 
 app.get('/', (req, res) => {res.send('it is working!')})
 app.post('/getaudio', (req,res) => {
+	var completed = 0
 	const { link } = req.body;
-	const success = false;
 	console.log(link)
 		console.log('processing');
 		let stream = ytdl(link, {  filter: 'audioonly' });
@@ -26,22 +26,27 @@ app.post('/getaudio', (req,res) => {
 		  //console.log(format);
 		})
 		stream.on('progress', function (length, downloaded, total) {
-		  //console.log(`length=${total}`);
+			completed= (downloaded/total)*100
+		  console.log(`completed=${completed}`);
+		  if(downloaded === total)
+		  {
+		  	console.log('give back the response')
+		  	res.json('success')
+		  }
 		});
 		stream.on('response', Ytbres => { 
 		  console.log(Ytbres.headers)
-		  success = true;
 		});
-
 
 		stream.pipe(fs.createWriteStream('public/music.mp3'))
 
-
-	res.json('success');
+		console.log('workingdsadsadsadasdsadsa')	
+	
 })
 
 app.post('/geturl', (req, res) => {
 	const {name} = req.body;
+	console.log(name);
 		fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${name}&type=video&videoDefinition=high&key=${API_KEY_GOOGLE}`, {
 			method: 'get',
 			headers: {
@@ -52,6 +57,8 @@ app.post('/geturl', (req, res) => {
               	res.json(response);
               })
 })
+
+
 
 app.listen(process.env.PORT, () => {
 	console.log(`the port is ${process.env.PORT}`);
