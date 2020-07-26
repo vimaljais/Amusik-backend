@@ -16,6 +16,7 @@ const API_KEY_GOOGLE = 'AIzaSyAWALUfkaVXKlRICN6bGx1Q8Y5TCouFzF4';
 app.get('/', (req, res) => {res.send('it is working!')})
 app.post('/getaudio', (req,res) => {
 	const { link } = req.body;
+	const success = false;
 	console.log(link)
 		console.log('processing');
 		let stream = ytdl(link, {  filter: 'audioonly' });
@@ -29,13 +30,16 @@ app.post('/getaudio', (req,res) => {
 		});
 		stream.on('response', Ytbres => { 
 		  console.log(Ytbres.headers)
-		  console.log('success')
+		  success = true;
 		});
 
 
 		stream.pipe(fs.createWriteStream('public/music.mp3'))
 
-	res.json('success')
+	while(!success){
+		console.log('working');
+	}
+	res.json('success');
 })
 
 app.post('/geturl', (req, res) => {
