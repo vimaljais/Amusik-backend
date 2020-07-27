@@ -5,6 +5,7 @@ const fs = require('fs');
 const cors =  require('cors');
 const fetch = require('node-fetch');
 var cmd=require('node-cmd');
+const yts = require( 'yt-search' );
 
 
 const express = require('express');
@@ -14,7 +15,6 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static('public'));
 
-const API_KEY_GOOGLE = 'AIzaSyDVPd9RdXnQ_0mhFWzGzvAKwAfUEXIfj7s';
 const API_KEY_LAST_FM = '7d4f3bdab1f65cad5f3204b2fa02e301';
 
 
@@ -35,16 +35,10 @@ app.post('/link', (req,res) => {
 
 app.post('/geturl', (req, res) => {
 	const {name} = req.body;
-	console.log(name);
-		fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${name}&type=video&videoDefinition=high&key=${API_KEY_GOOGLE}`, {
-			method: 'get',
-			headers: {
-				Accept: 'application/json'
-			}
-		}).then(response => response.json())
-              .then(response => {
-              	res.json(response);
-              })
+		yts( name , function ( err, r ) {
+		  const videos = r.videos[0].url;
+		  res.json(videos)
+	 })
 })
 
 app.get('/getart/:name', (req,res) => {
@@ -71,7 +65,6 @@ app.get('/gettop50', (req,res) => {
 		})
 
 })
-
 app.listen(process.env.PORT, () => {
 	console.log(`the port is ${process.env.PORT}`);
 })
