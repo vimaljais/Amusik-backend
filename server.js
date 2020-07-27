@@ -1,12 +1,9 @@
-
-
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const cors =  require('cors');
 const fetch = require('node-fetch');
 var cmd=require('node-cmd');
 const yts = require( 'yt-search' );
-
 
 const express = require('express');
 
@@ -16,7 +13,6 @@ app.use(cors());
 app.use(express.static('public'));
 
 const API_KEY_LAST_FM = '7d4f3bdab1f65cad5f3204b2fa02e301';
-
 
 app.get('/', (req, res) => {res.send('it is working!')})
 
@@ -65,7 +61,6 @@ app.get('/gettop50', (req,res) => {
 		})
 
 })
-
 
 })
 app.listen(process.env.PORT, () => {
