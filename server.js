@@ -65,6 +65,9 @@ app.get('/gettop50', (req,res) => {
 		})
 
 })
+
+
+})
 app.listen(process.env.PORT, () => {
 	console.log(`the port is ${process.env.PORT}`);
 })
