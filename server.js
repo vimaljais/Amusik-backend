@@ -122,6 +122,7 @@ app.get('/getartistsearch/:quary', (req,res) => {
 
 
 
-app.listen(process.env.PORT, () => {
-	console.log(`the port is ${process.env.PORT}`);
+
+app.listen(3000, () => {
+	console.log('listening on 3000');
 })
