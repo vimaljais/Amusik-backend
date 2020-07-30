@@ -22,7 +22,7 @@ app.get('/', (req, res) => {res.send('it is working!')})
 app.post('/link', (req,res) => {
 	const { link } = req.body;
 	cmd.get(
- 			`ytdl ${link} --filter audioonly --print-url`
+ 			`ytdl ${link} --filter audioonly --print-url --quality highestaudio`
         ,
         function(err, data, stderr){
 
