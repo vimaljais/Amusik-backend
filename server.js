@@ -120,9 +120,6 @@ app.get('/getartistsearch/:quary', (req,res) => {
 
 
 
-
-
-
 app.listen(process.env.PORT, () => {
 	console.log(process.env.PORT);
 })
