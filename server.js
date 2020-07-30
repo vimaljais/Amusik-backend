@@ -6,6 +6,7 @@ var cmd=require('node-cmd');
 const yts = require( 'yt-search' );
 const youtubedl = require('youtube-dl')
 const ytdl = require('ytdl-core');
+var ytt = require("ytt")
 
 const express = require('express');
 
@@ -30,6 +31,24 @@ app.post('/link', (req,res) => {
         }
     );	
 })
+
+
+app.post('/linknewnew', (req,res) => {
+	const { link } = req.body;
+	getInfo(link).then(info => {
+  	// info.items[0] should contain the output of youtube-dl --dump-json
+ 	res.json(info.items[0].url)
+})
+})
+
+app.post('/linknewnewnew', (req,res) => {
+	var { link } = req.body;
+	link=link.replace('https://youtube.com/watch?v=','')
+	ytt.download(link)
+	.then(response => res.json(response.formats[response.formats.length-1].url))
+	// { info: YoutubeVideo, formats: YoutubeFormats }
+})
+
 
 
 app.post('/linknew', (req,res) => {
