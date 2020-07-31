@@ -4,6 +4,7 @@ const cors =  require('cors');
 const fetch = require('node-fetch');
 var cmd=require('node-cmd');
 const yts = require( 'yt-search' );
+const youtubedl = require('youtube-dl')
 const ytdl = require('ytdl-core');
 var ytt = require("ytt")
 
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {res.send('it is working!')})
 app.post('/link', (req,res) => {
 	const { link } = req.body;
 	cmd.get(
- 			`ytdl ${link} --filter audioonly --print-url --quality highestaudio`
+ 			`ytdl ${link} --filter audioonly --print-url --no-cache --quality highestaudio`
         ,
         function(err, data, stderr){
 
@@ -66,15 +67,10 @@ app.post('/linknew', (req,res) => {
 
 app.post('/geturl', (req, res) => {
 	const {name} = req.body;
-	ytt.query(name)
-	.then(response => {
-	ytt.download(response.items[0].id)
-	.then(response => res.json(response.formats[response.formats.length-1].url))
-
-	})
-
-
-
+		yts( name , function ( err, r ) {
+		  const videos = r.videos[0].url;
+		  res.json(videos)
+	 })
 })
 
 app.get('/getart/:name', (req,res) => {
@@ -140,6 +136,7 @@ app.get('/getartistsearch/:quary', (req,res) => {
 		})
 
 })
+
 
 
 
