@@ -33,6 +33,19 @@ app.post('/link', (req,res) => {
 })
 
 
+app.post('/linknew', (req,res) => {
+	const { link } = req.body; 	 
+	console.log(req.ip)
+	youtubedl.getInfo(link,  ['-x', '--audio-format', 'mp3'], ['--proxy', `${req.ip}`], function(err, info) {
+	  if (err) throw err
+	  	res.json(info.formats[0].url)
+	})
+})
+
+
+
+
+
 app.post('/linknewnew', (req,res) => {
 	const { link } = req.body;
 	getInfo(link).then(info => {
@@ -45,22 +58,9 @@ app.post('/linknewnewnew', (req,res) => {
 	var { link } = req.body;
 	link=link.replace('https://youtube.com/watch?v=','')
 	ytt.download(link)
-	.then(response => res.json(response.formats[response.formats.length-1].url))
+	.then(response => res.send(response.formats[response.formats.length-1].url))
 	// { info: YoutubeVideo, formats: YoutubeFormats }
 })
-
-
-
-app.post('/linknew', (req,res) => {
-	const { link } = req.body; 
- 
-	 
-	youtubedl.getInfo(link,  ['-x', '--audio-format', 'mp3'] , function(err, info) {
-	  if (err) throw err
-	  	res.json(info.url)
-	})
-})
-
 
 
 
@@ -136,6 +136,9 @@ app.get('/getartistsearch/:quary', (req,res) => {
 		})
 
 })
+
+
+
 
 
 
