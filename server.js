@@ -64,7 +64,7 @@ app.post('/linkfuck', (req,res) => {
 app.post('/linkfinal', (req,res) => {
 	const { link } = req.body;
 	cmd.get(
- 			`youtube-dl --get-url --format bestaudio --no-check-certificate --no-cache-dir --simulate --geo-bypass ${link}`
+ 			`youtube-dl --get-url --format bestaudio --rm-cache-dir --simulate --geo-bypass ${link}`
         ,
         function(err, data, stderr){
 
