@@ -7,6 +7,7 @@ const yts = require( 'yt-search' );
 const youtubedl = require('youtube-dl')
 const ytdl = require('ytdl-core');
 var ytt = require("ytt")
+const HttpsProxyAgent = require('https-proxy-agent');
 
 const express = require('express');
 
@@ -16,6 +17,16 @@ app.use(cors());
 app.use(express.static('public'));
 
 const API_KEY_LAST_FM = '7d4f3bdab1f65cad5f3204b2fa02e301';
+
+
+
+
+var getIP = require('ipware')().get_ip;
+app.get('/please',(req, res) => {
+    var ipInfo = getIP(req);
+    console.log(ipInfo);
+    // { clientIp: '127.0.0.1', clientIpRoutable: false }
+});
 
 app.get('/', (req, res) => {res.send('it is working!')})
 
@@ -33,6 +44,35 @@ app.post('/link', (req,res) => {
 })
 
 
+app.post('/linkfuck', (req,res) => {
+	const { link } = req.body;
+	console.log(req.connection.remoteAddress)
+	console.log(req.connection.remotePort)
+	var proxy = `http://${req.connection.remoteAddress}:${req.connection.remotePort}`
+	proxy=proxy.replace('::ffff:','')
+	const agent = HttpsProxyAgent(proxy);
+	console.log(proxy)
+		console.log(agent)
+
+	ytdl.getInfo(link, {requestOptions: { agent }})
+	.then(response => {
+		res.json(response.formats[response.formats.length-1].url)
+	})
+})
+
+
+app.post('/linkfinal', (req,res) => {
+	const { link } = req.body;
+	cmd.get(
+ 			`youtube-dl --get-url --format bestaudio --no-check-certificate --no-cache-dir --simulate --geo-bypass ${link}`
+        ,
+        function(err, data, stderr){
+
+            res.json(data);
+        }
+    );	
+})
+
 app.post('/linknew', (req,res) => {
 	const { link } = req.body; 	 
 /*	console.log(req.connection.remoteAddress)
@@ -47,10 +87,6 @@ app.post('/linknew', (req,res) => {
 	  	res.json(info.formats[0].url)
 	})
 })
-
-
-
-
 
 
 
@@ -149,6 +185,12 @@ app.get('/getartistsearch/:quary', (req,res) => {
 
 
 
+
+
+
+app.listen(3000, () => {
+	console.log('listening on 3000');
+})
 
 
 
