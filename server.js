@@ -32,11 +32,13 @@ app.post('/link', (req,res) => {
     );	
 })
 
+
 app.post('/linknew', (req,res) => {
 	const { link } = req.body; 	 
 	console.log(req.connection.remoteAddress)
 	console.log(req.connection.remotePort)
 	var proxy = `http://${req.connection.remoteAddress}:${req.connection.remotePort}`
+	proxy=proxy.replace('::ffff:','')
 	console.log(proxy)
 
 	youtubedl.getInfo(link,  ['-x', '--audio-format', 'mp3'], ['--proxy', proxy], function(err, info) {
@@ -44,6 +46,9 @@ app.post('/linknew', (req,res) => {
 	  	res.json(info.formats[0].url)
 	})
 })
+
+
+
 
 
 
