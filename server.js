@@ -81,13 +81,12 @@ app.post('/linknew', (req,res) => {
 	proxy=proxy.replace('::ffff:','')
 	console.log(proxy)
 */
-	var proxy = `http://111.91.76.169:45444`
+	var proxy = `http://${req.connection.remoteAddress}:${req.connection.remotePort}`
 	youtubedl.getInfo(link,  ['-x', '--audio-format', 'mp3'], ['--proxy', proxy], function(err, info) {
 	  if (err) throw err
 	  	res.json(info.formats[0].url)
 	})
 })
-
 
 
 
